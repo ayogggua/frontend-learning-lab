@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>前端学习实验室 · 从浏览器到项目交付</title>
+  <link rel="stylesheet" href="./style.css?v=5.3">
+  <script src="./curriculum.js?v=5.3" defer></script>
+  <script src="./curriculum-advanced.js?v=5.3" defer></script>
+  <script src="./framework-vue.js?v=5.3" defer></script>
+  <script src="./framework-react.js?v=5.3" defer></script>
+  <script src="./framework-uni.js?v=5.3" defer></script>
+  <script src="./learning-content.js?v=5.3" defer></script>
+  <script src="./framework-content.js?v=5.3" defer></script>
+  <script src="./learning-store.js?v=5.3" defer></script>
+  <script src="./app.js?v=5.3" defer></script>
+  <script src="./framework-ui.js?v=5.3" defer></script>
+  <script src="./learning.js?v=5.3" defer></script>
+</head>
+<body>
+<a class="skip" href="#lesson-title">跳到课程内容</a>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="#learn"><span>FE</span><div><strong>前端学习实验室</strong><small>读懂原理 · 动手验证</small></div></a>
+    <nav class="workspace-tabs" aria-label="学习空间"><a href="#learn">学习中心</a><a href="#frameworks">框架专题</a><a href="#review" id="review-count">复习</a><a href="#projects">项目实践</a><a href="#glossary">术语索引</a></nav>
+    <label class="search-label" for="search">查找课程</label><input type="search" id="search" placeholder="例如：盒模型、Vue、接口">
+    <div class="progress-heading"><span id="progress-label">0 / 63 已完成</span><button id="resume" class="text-button">继续学习</button></div>
+    <progress id="progress" value="0" max="63"></progress>
+    <nav id="course-nav" aria-label="学习路线"></nav>
+    <div class="sidebar-foot">进度和代码草稿保存在本机浏览器。<br>完成练习与理解题后，本课才会标记完成。</div>
+  </aside>
+  <main>
+    <header class="topbar"><span id="catalog-label">63 课 · 从浏览器到跨端开发</span><div><button id="map-button">课程地图</button><button id="prev" class="lesson-paging">上一课</button><button id="next" class="primary lesson-paging">下一课</button></div></header>
+    <div class="page">
+      <div id="overview" hidden></div>
+      <div id="hub" data-screen-label="学习中心" hidden></div>
+      <div id="lesson-view" data-screen-label="课程实验">
+      <header class="lesson-header"><div><p id="group-label" class="eyebrow"></p><h1 id="lesson-title" tabindex="-1"></h1><p id="lesson-summary"></p></div><div class="lesson-meta"><span id="lesson-number"></span><span id="lesson-time"></span><span id="lesson-status">待练习</span></div></header>
+      <div class="learning-order"><b>本课学习顺序</b><span>读原理</span><i>→</i><span>预测结果</span><i>→</i><span>运行与修改</span><i>→</i><span>练习与反馈</span></div>
+      <nav id="lesson-sections" class="lesson-sections" aria-label="本课阅读导航" hidden></nav>
+      <section class="concepts" id="concepts" aria-label="原理讲解"></section>
+      <section id="framework-theory" hidden></section>
+      <section id="deep-reading" hidden></section>
+      <section class="workshop" aria-labelledby="workshop-title">
+        <div class="section-heading"><div><h2 id="workshop-title">代码与真实运行结果</h2><p id="runtime-note"></p></div><button id="reset-code">恢复本课示例</button></div>
+        <div class="workbench">
+          <div class="code-column">
+            <div class="editor-tabs" id="file-tabs" role="tablist" aria-label="代码文件"><button data-file="html" role="tab" aria-selected="true">HTML</button><button data-file="css" role="tab" aria-selected="false">CSS</button><button data-file="js" role="tab" aria-selected="false">JavaScript</button><span id="dirty"></span></div>
+            <div class="editor-tools"><span id="file-name">index.html · body 内容</span><label><input id="edit-mode" type="checkbox">编辑代码</label></div>
+            <div id="line-reader" class="line-reader" aria-label="点击代码行查看解释"></div>
+            <label for="code-editor" class="sr-only">当前文件的可编辑代码</label><textarea id="code-editor" spellcheck="false" hidden></textarea>
+            <div class="line-detail"><span id="line-label"></span><p id="line-detail"></p></div>
+          </div>
+          <div class="preview-column">
+            <div class="preview-tools"><div><b>浏览器预览</b><span id="preview-width">自适应</span></div><div><button data-width="375">375px</button><button data-width="800">800px</button><button data-width="full" aria-pressed="true">自适应</button></div></div>
+            <div class="frame-scroll"><iframe id="preview" title="课程代码执行预览" sandbox="allow-scripts allow-modals allow-forms" referrerpolicy="no-referrer"></iframe></div>
+            <div class="runner-tools"><label><input id="use-css" type="checkbox" checked>应用 CSS</label><label><input id="use-js" type="checkbox" checked>执行 JS</label><button id="run" class="primary">运行代码</button><button id="export">导出示例</button></div>
+            <div class="console-tools"><div role="tablist" aria-label="观测面板"><button data-panel="console" class="active">Console</button><button data-panel="dom">DOM</button></div><button id="clear-log" class="text-button">清空日志</button></div><pre id="observer" tabindex="0" aria-label="运行观测日志"></pre>
+          </div>
+        </div>
+        <details class="assembly"><summary>这里的 HTML、CSS、JS 怎样连起来？</summary><p>真实项目由 HTML 的 link 和 script 引入文件。本实验把编辑器里的 CSS 和 JS 注入独立 iframe，保留真实浏览器执行，方便离线练习。HTML 面板编辑 body 内容，JS 放在 body 节点之后执行；本实验不模拟外部文件下载耗时。</p><pre>&lt;!doctype html&gt;
+&lt;html lang="zh-CN"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;link rel="stylesheet" href="./style.css"&gt;
+    &lt;script src="./app.js" defer&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;…页面结构…&lt;/body&gt;
+&lt;/html&gt;</pre><p>第一次绘制与 defer 执行没有固定先后。defer 的关键保证是：文档解析后、DOMContentLoaded 前执行。</p></details>
+      </section>
+      <section id="framework-source" hidden></section>
+      <div class="practice-grid" id="practice-section">
+        <section class="practice"><span class="eyebrow">动手验证</span><h2>按顺序操作</h2><ol id="steps"></ol><div class="challenge"><h3>本课练习</h3><p id="task"></p><div><button id="check" class="primary">检查当前结果</button><button id="hint-button">查看提示</button></div><p id="hint" hidden></p><p id="check-result" role="status"></p></div></section>
+        <section class="quiz"><span class="eyebrow">理解检查</span><h2 id="quiz-question"></h2><div id="quiz-options"></div><p id="quiz-result" role="status"></p><div id="completion-note"></div></section>
+      </div>
+      <section class="lesson-journal"><div><h2>留下你自己的解释</h2><p>记录原来怎么理解、实验推翻了什么、还有什么疑问。下次复习先读自己的答案。</p><div class="actions"><button id="bookmark" aria-pressed="false">收藏本课</button><button id="queue-review">加入今日复习</button></div><p id="review-status"></p></div><div><label for="lesson-note">本课笔记</label><textarea id="lesson-note" rows="5" maxlength="12000" placeholder="例如：count 变了只是内存改变，原生 JS 还要显式写入 textContent，页面才更新。"></textarea><p id="note-status" role="status"></p></div></section>
+      <footer class="lesson-footer"><div><b>继续深入</b><div id="references"></div></div><button id="bottom-next" class="primary">继续下一课</button></footer>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast" role="status"></div>
+</body>
+</html>
